@@ -2,30 +2,34 @@ package com.pluralsight.service;
 
 import com.pluralsight.model.Customer;
 import com.pluralsight.repository.CustomerRepository;
-import com.pluralsight.repository.HibernateCustomerRepositoryImpl;
-
 import java.util.List;
 
-/**
- * Created by aviv on 2/11/2015.
- */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service("customerService")
 public class CustomerServiceImpl implements CustomerService {
+	
+	//ctor injection
+	@Autowired
+	public CustomerServiceImpl(CustomerRepository customerRepository) {
+		System.out.println("We are using ctor injection");
+		
+		this.customerRepository = customerRepository;
+	}
+	
+	//member injection
+	/*@Autowired*/
     private CustomerRepository customerRepository;
     
-    public CustomerServiceImpl() {
-		// TODO Auto-generated constructor stub
-	}
-    
-    //constructor injection
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-		this.customerRepository = customerRepository;
-	}
-
-    //property injection
+    //setter injection
+	/*@Autowired*/
 	public void setCustomerRepository(CustomerRepository customerRepository) {
+		System.out.println("We are using setter injection");
+		
 		this.customerRepository = customerRepository;
 	}
-
+	
     public List<Customer> findAll() {
         return customerRepository.findAll();
     }
